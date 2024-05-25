@@ -3,30 +3,24 @@ import sys
 read = sys.stdin.readline
 write = sys.stdout.write
 
-k, n = map(int, read().split())
 
-cables = [int(read()) for i in range(k)]
+def main():
+    k, n = map(int, read().split())
+    cables = list(map(int, sys.stdin.read().strip().split()))
+    low = 0
+    high = 1 << 31
+    while low + 1 < high:
+        mid = (low + high) // 2
+        count = 0
+        for cable in cables:
+            count += cable // mid
 
-high, low = 2**31, 0
-mid = 0
+        if count >= n:
+            low = mid
+        else:
+            high = mid
 
-while low <= high:
-    mid = (high + low) // 2
-    count = 0
+    print(low)
 
-    for cable in cables:
-        count += cable // mid
 
-    if count < n:
-        high = mid - 1
-    else:
-        low = mid + 1
-
-count = 0
-for cable in cables:
-    count += cable // mid
-
-if count < n:
-    mid -= 1
-
-print(mid)
+main()
